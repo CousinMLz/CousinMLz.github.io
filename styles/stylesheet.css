@@ -1,0 +1,39 @@
+body,
+html {
+    font-size: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    background-color: rgb(25, 25, 255);
+    display: inline-block;
+}
+
+header {
+    color: white;
+    font-variant: small-caps;
+    font-family: Arial, Helvetica, sans-serif;
+    clear: both;
+    width: 75%;
+    text-align: center;
+    text-shadow: .1rem .1rem .1rem black;
+}
+
+img {
+    height: 25%;
+    width: 25%;
+}
+
+main {
+    background-color: orangered;
+
+}
+
+p {
+    font-size: 1.25rem;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 1rem;
+}
+
+#userButton{
+    margin: 1rem;
+    font-size: 1.1rem;
+}
