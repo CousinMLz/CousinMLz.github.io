@@ -1,7 +1,8 @@
-// Drawing Attributes
+// Environment Attributes
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 const interval = setInterval(draw, 10);
+let score = 0;
 
 // Ball Attributes
 const ballRadius = 10;
@@ -45,7 +46,13 @@ function collisionDetection() {
                 ) {
                     dy = -dy;
                     b.status = 0;
-                    ballColor = getColorCode();
+                    //ballColor = getColorCode();
+                    ++score;
+                    if (score === (brickRowCount * brickColumnCount)) {
+                        alert(`CONGRATULATIONS!\n Score: ${score}`);
+                        document.location.reload();
+                        clearInterval(interval); // Needed for Chrome to end game
+                    }
                 }
             }
         }
@@ -55,7 +62,7 @@ function collisionDetection() {
 // Movement Attributes
 let x = Math.floor(Math.random() * canvas.width);
 let y = canvas.height - 30;
-let dx = (Math.random() * 2);
+let dx = 2;
 let dy = -2;
 
 // Random Color Generator
@@ -94,7 +101,11 @@ function drawBricks() {
     }
 }
 
-
+function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText(`Score: ${score}`, 8, 20);
+}
 
 function drawPaddle() {
     ctx.beginPath();
@@ -110,6 +121,7 @@ function draw() {
     drawBall();
     drawPaddle();
     collisionDetection();
+    drawScore();
 
     x += dx;
     y += dy;
@@ -122,9 +134,11 @@ function draw() {
     } else if (y + dy > canvas.height - ballRadius) {
         if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
+            /*             
             if ((-dy) < 8) {
                 --dy;
-            }
+            } 
+            */
         } else {
             alert("GAME OVER");
             document.location.reload();
@@ -150,6 +164,8 @@ function draw() {
 /*--Player Controls--*/
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
+
 function keyDownHandler(e) {
     if (e.key === "Right" || e.key === "ArrowRight") {
         rightPressed = true;
@@ -165,4 +181,12 @@ function keyUpHandler(e) {
         leftPressed = false;
     }
 }
+
+function mouseMoveHandler(e) {
+    const relativeX = e.clientX - canvas.offsetLeft;
+    if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2;
+    }
+}
+
 /*--End of Controls--*/
